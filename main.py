@@ -5,6 +5,8 @@ import datetime
 import time
 import urllib2
 import os
+import string_nk
+import system_nk
 
 def download(url):
 	attempts = 0
@@ -16,31 +18,6 @@ def download(url):
 	    except urllib2.URLError as e:
 	        attempts += 1
 	        print type(e)
-
-def decoupe(string, start, size):
-	index = 0
-	ret = ""
-	for lettre in string:
-		if index >= start and size > 0:
-			ret += lettre
-			size-=1
-		if size < 1:
-			return ret
-		index+=1
-	return ret
-
-def cut(string, delimiter, index):
-	string.split
-	for item in string.split(delimiter):
-		if index == 0:
-			return item
-		index-=1
-	return ""
-
-def match(string, match):
-	if match in string:
-		return 1
-	return 0
 
 def mois_recup(string):
 	strin = cut(string, " ", 2)
@@ -188,22 +165,26 @@ def crawler_youtube(url, liste, rssid):
 def dcp(x, y, buttom, wait):
     deplace(x, y)
     clic(buttom)
-    paus(wait)
+    system_nk.paus(wait)
+
+def copier(string):
+	commande='echo "' + string + '" | xclip -i'
+    system_nk.execute("commande")
 
 def copier_texte(string):
-    ecrire("copy.txt", string)
-    execute("gedit copy.txt &")
-    paus(1)
-    execute('wmctrl -r "gedit" -e 0,1900,0,1000,1000 2>/dev/null')
-    execute('wmctrl - a "gedit" 2>/dev/null')
+    system_nk.ecrire("copy.txt", string)
+    system_nk.execute("gedit copy.txt &")
+    system_nk.paus(1)
+    system_nk.execute('wmctrl -r "gedit" -e 0,1900,0,1000,1000 2>/dev/null')
+    system_nk.execute('wmctrl - a "gedit" 2>/dev/null')
     dcp(2331, 259, 1, 1)
-    execute('xdotool keydown Ctrl')
-    paus(1)
-    execute('xdotool key a')
-    paus(1)
-    execute('xdotool key c')
-    paus(1)
-    execute('xdotool keyup Ctrl')
+    system_nk.execute('xdotool keydown Ctrl')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key a')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key c')
+    system_nk.paus(1)
+    system_nk.execute('xdotool keyup Ctrl')
 
 def str_replace(string):
     ret = str(string)
@@ -225,8 +206,8 @@ def sav_article(liste):
         liste.remove(val)
 
 def add_vgs(titre, date, url, frame):
-    execute('xdotool keydown Ctrl')
-    execute('xdotool keyup Ctrl')
+    system_nk.execute('xdotool keydown Ctrl')
+    system_nk.execute('xdotool keyup Ctrl')
     #clique jommla
     #dcp(156, 196, 1, 3)
     dcp(210, 127, 1, 1)
@@ -234,7 +215,7 @@ def add_vgs(titre, date, url, frame):
     while test_url("Administration - Panneau d'administration") == 0:
         dcp(210, 127, 1, 1)
         dcp(209, 317, 1, 1)
-        paus(2)
+        system_nk.paus(2)
     #ajouter un article
     dcp(1303, 298, 1, 2)
     if test_url("Gestion des articles : Ajouter un article") == 0:
@@ -243,66 +224,66 @@ def add_vgs(titre, date, url, frame):
     copier_texte(titre)
     ##titre
     dcp(72, 345, 1, 1)
-    execute('xdotool keydown Ctrl')
-    paus(1)
-    execute('xdotool key v')
-    paus(1)
-    execute('xdotool keyup Ctrl')
-    execute('killall "gedit"')
+    system_nk.execute('xdotool keydown Ctrl')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key v')
+    system_nk.paus(1)
+    system_nk.execute('xdotool keyup Ctrl')
+    system_nk.execute('killall "gedit"')
     #frame
     dcp(82, 674, 1, 1)
     copier_texte(frame)
     ##php
     dcp(165, 358, 1, 1)
-    execute('xdotool keydown Ctrl')
-    paus(1)
-    execute('xdotool key v')
-    paus(1)
-    execute('xdotool keyup Ctrl')
-    execute('killall "gedit"')
-    paus(1)
+    system_nk.execute('xdotool keydown Ctrl')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key v')
+    system_nk.paus(1)
+    system_nk.execute('xdotool keyup Ctrl')
+    system_nk.execute('killall "gedit"')
+    system_nk.paus(1)
     ##inserer
     dcp(114, 265, 1, 1)
     ##categorie
     dcp(512, 355, 1, 1)
-    execute('xdotool key V')
-    paus(1)
+    system_nk.execute('xdotool key V')
+    system_nk.paus(1)
     ##video
     dcp(457, 403, 1, 1)
     ##date
     dcp(250, 296, 1, 1)
     date0 = date +  " 00:00:00"
-    ecrire("copy.txt", date0)
-    execute("gedit copy.txt &")
-    paus(2)
-    execute('wmctrl -r "gedit" -e 0,1900,0,1000,1000 2>/dev/null')
-    execute('wmctrl - a "gedit" 2>/dev/null')
+    system_nk.ecrire("copy.txt", date0)
+    system_nk.execute("gedit copy.txt &")
+    system_nk.paus(2)
+    system_nk.execute('wmctrl -r "gedit" -e 0,1900,0,1000,1000 2>/dev/null')
+    system_nk.execute('wmctrl - a "gedit" 2>/dev/null')
     ##gedit
     dcp(2331, 259, 1, 1)
-    execute('xdotool keydown Ctrl')
-    paus(1)
-    execute('xdotool key a')
-    paus(1)
-    execute('xdotool key c')
-    paus(1)
-    execute('xdotool keyup Ctrl')
-    paus(1)
+    system_nk.execute('xdotool keydown Ctrl')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key a')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key c')
+    system_nk.paus(1)
+    system_nk.execute('xdotool keyup Ctrl')
+    system_nk.paus(1)
     dcp(210, 534, 1, 1)
-    execute('xdotool keydown Ctrl')
-    paus(1)
-    execute('xdotool key v')
-    paus(1)
+    system_nk.execute('xdotool keydown Ctrl')
+    system_nk.paus(1)
+    system_nk.execute('xdotool key v')
+    system_nk.paus(1)
     dcp(980, 348, 1, 1)
-    execute('xdotool key v')
-    paus(1)
-    execute('xdotool keyup Ctrl')
-    execute('killall "gedit"')
-    paus(1)
+    system_nk.execute('xdotool key v')
+    system_nk.paus(1)
+    system_nk.execute('xdotool keyup Ctrl')
+    system_nk.execute('killall "gedit"')
+    system_nk.paus(1)
     ##enregistrer
     dcp(130, 250, 1, 1)
 
 def test_url(string):
-    paus(1)
+    system_nk.paus(1)
     com = commande("wmctrl -l | grep Mozilla")
     if match(com, string) == 0:
         return 0
@@ -310,58 +291,18 @@ def test_url(string):
 
 def deplace(x, y):
     commande = "xdotool mousemove " + str(x) + " " + str(y)
-    execute(commande)
+    system_nk.execute(commande)
 
 def clic(buttom):
     commande = "xdotool click " + str(buttom)
-    execute(commande)
+    system_nk.execute(commande)
 
 def clavier(string):
     commande = 'xdotool type "' + string  + '"'
-    execute(commande)
+    system_nk.execute(commande)
 
 def timestamp():
     return time.time()
-
-def contenue(fichier):
-    try:
-        mon_fichier = open(fichier, "r")
-        f_contenu = mon_fichier.read()
-        mon_fichier.close()
-    except:
-        print "Error open:"+ fichier
-        return 1
-    return f_contenu
-
-def commande(ordre):
-    com = "{0} > tempo.txt".format(ordre)
-    execute(com)
-    cont = contenue('tempo.txt')
-    delete('tempo.txt')
-    return cont
-
-def paus(time):
-    com = "sleep " + str(time)
-    execute(com)
-    return 1
-
-def execute(ordre):
-    try:
-        os.system(ordre)
-    except:
-        return 0
-    return 1
-
-def delete(fichier):
-    try:
-        os.remove(fichier)
-    except:
-        return 0
-    return 1
-
-def ecrire(fichier, string):
-    commande = 'echo "' + string + '" > ' + fichier
-    execute(commande)
 
 if __name__=='__main__':
 	liste = []
