@@ -7,6 +7,8 @@ import urllib2
 import os
 import string_nk
 import system_nk
+import date_nk
+import control_nk
 
 def download(url):
 	attempts = 0
@@ -18,64 +20,6 @@ def download(url):
 	    except urllib2.URLError as e:
 	        attempts += 1
 	        print type(e)
-
-def mois_recup(string):
-	strin = cut(string, " ", 2)
-	if match(strin, "Jan"):
-		return "1"
-	if match(strin, "Feb"):
-		return "2"
-	if match(strin, "Mar"):
-		return "3"
-	if match(strin, "Apr"):
-		return "4"
-	if match(strin, "May"):
-		return "5"
-	if match(strin, "Jun"):
-		return "6"
-	if match(strin, "Jul"):
-		return "7"
-	if match(strin, "Aug"):
-		return "8"
-	if match(strin, "Sep"):
-		return "9"
-	if match(strin, "Oct"):
-		return "10"
-	if match(strin, "Nov"):
-		return "11"
-	if match(strin, "Dec"):
-		return "12"
-
-def is_number(string):
-	for lettre in string:
-		if lettre != "1" and lettre != "2" and lettre != "3" and lettre != "4":
-			if lettre != "5" and lettre != "6" and lettre != "7":
-				if lettre != "8" and lettre != "9" and lettre != "0":
-					return 0
-	return 1
-
-def format_date(string):
-	ret = string
-	if is_number(string) == 1:
-		if len(string) == 1:
-			ret = "0" + string
-	return ret
-
-def jour_recup(string):
-	format_date(cut(string, " ", 1))
-	return cut(string, " ", 1)
-
-def annee_recup(string):
-	return cut(string, " ", 3)
-
-def seconde_recup(string):
-	return cut(cut(string, " ", 4), ":", 2)
-
-def minute_recup(string):
-	return cut(cut(string, " ", 4), ":", 1)
-
-def heure_recup(string):
-	return cut(cut(string, " ", 4), ":", 0)
 
 def crawler(url, liste, rssid):
 	page0 = str(download(url))
@@ -97,8 +41,8 @@ def crawler(url, liste, rssid):
 	for ligne in page.split("<"):
 		#print ligne
 		if decoupe(ligne, 0, 1) != '/':
-			balise = cut(ligne, ">", 0)
-			body = cut(ligne, ">", 1)
+			balise = system_nk.cut(ligne, ">", 0)
+			body = system_nk.cut(ligne, ">", 1)
 			#if balise == "item":
 				#etat = 1
 			if balise == "title":
@@ -123,7 +67,7 @@ def crawler(url, liste, rssid):
 			elif match(balise, "link"):
 				lien = body
 			elif match(balise, "enclosure") and match(balise,"url="):
-				image = cut(balise, '"', 1)
+				image = system_nk.cut(balise, '"', 1)
 			else:
 				if etat == 1:
 					etat = 0
@@ -136,9 +80,9 @@ def youtube(url, liste, rssid):
 	page.split
 	for ligne in page.split("<"):
 		if match(ligne, "minutes") == 1:
-			duree = cut(ligne, '>', 1)
+			duree = system_nk.cut(ligne, '>', 1)
 		if match(ligne, "yt-uix-tile-link") == 1 and match(ligne, "watch?v="):
-			lien = cut(ligne, '"', 11)
+			lien = system_nk.cut(ligne, '"', 11)
 			lien = "https://www.youtube.com" + lien
 			crawler_youtube(lien, liste, rssid)
 		if match(ligne, "yt-uix-button-content") == 1 and match(ligne, "Plus"):
@@ -151,25 +95,16 @@ def crawler_youtube(url, liste, rssid):
 	page.split
 	for ligne in page.split("<"):
 		if match(ligne, "watch-title") == 1 and match(ligne, "eow-title") == 1:
-			titre = cut(ligne, '"', 7)
-			url0 = cut(url, '=', 1)
+			titre = system_nk.cut(ligne, '"', 7)
+			url0 = system_nk.cut(url, '=', 1)
 			frame = '<iframe width="853" height="480" src="https://www.youtube.com/embed/'+url0+'" frameborder="0" allowfullscreen></iframe>'
 			chaine = str(timestamp) +de+ rssid +de+ titre +de+ date +de+ url +de+ frame
 			liste.append(chaine)
                         #add_vgs(titre, date, url, frame)
 		if match(ligne, "datePublished") == 1:
-			date =  cut(ligne, '"', 3)
+			date =  system_nk.cut(ligne, '"', 3)
 			date0 = datetime.datetime.strptime(date, "%Y-%m-%d")
 			timestamp = calendar.timegm(date0.utctimetuple())
-
-def dcp(x, y, buttom, wait):
-    deplace(x, y)
-    clic(buttom)
-    system_nk.paus(wait)
-
-def copier(string):
-	commande='echo "' + string + '" | xclip -i'
-    system_nk.execute("commande")
 
 def copier_texte(string):
     system_nk.ecrire("copy.txt", string)
@@ -195,12 +130,12 @@ def str_replace(string):
 def sav_article(liste):
     while len(liste) > 0:
         val = liste[0]
-        tim = cut(val, "++q++", 0)
-        titre0 = cut(val, "++q++", 2)
+        tim = system_nk.cut(val, "++q++", 0)
+        titre0 = system_nk.cut(val, "++q++", 2)
         titre = str_replace(titre0)
-        date = cut(val, "++q++", 3)
-        url = cut(val, "++q++", 4)
-        frame = cut(val, "++q++", 5)
+        date = system_nk.cut(val, "++q++", 3)
+        url = system_nk.cut(val, "++q++", 4)
+        frame = system_nk.cut(val, "++q++", 5)
         print titre
         add_vgs(titre, date, url, frame)
         liste.remove(val)
@@ -289,18 +224,6 @@ def test_url(string):
         return 0
     return 1
 
-def deplace(x, y):
-    commande = "xdotool mousemove " + str(x) + " " + str(y)
-    system_nk.execute(commande)
-
-def clic(buttom):
-    commande = "xdotool click " + str(buttom)
-    system_nk.execute(commande)
-
-def clavier(string):
-    commande = 'xdotool type "' + string  + '"'
-    system_nk.execute(commande)
-
 def timestamp():
     return time.time()
 
@@ -311,8 +234,8 @@ if __name__=='__main__':
 	mon_fichier.close()
 	for line in contenu:
 		ligne = decoupe(line, 0, len(line) - 1)
-		rssid = cut(ligne, ";", 0)
-		url = cut(ligne, ";", 1)
+		rssid = system_nk.cut(ligne, ";", 0)
+		url = system_nk.cut(ligne, ";", 1)
 		if match(url, "youtube") == 1:
 			youtube(url, liste, rssid)
 		#else
