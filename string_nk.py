@@ -2,6 +2,13 @@
 
 import string_nk
 
+def str_replace(string):
+    ret = str(string)
+    retu = ret.replace("&#39;", "'")
+    ret = retu.replace("&quot;", '"')
+    ret = retu.replace("&amp;", '&')
+    return ret
+
 def decoupe(string, start, size):
 	index = 0
 	ret = ""

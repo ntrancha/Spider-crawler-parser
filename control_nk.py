@@ -26,11 +26,11 @@ def ddcp(x, y, buttom, wait):
 	system_nk.paus(wait)
 
 def copier(string):
-	com = 'echo "' + string + '" | xclip -i'
+	com = 'echo "' + string + '" | xsel -b'
 	system_nk.execute(com)
 
 def xclip():
-	com = 'xclip -o'
+	com = 'xsel -b'
 	return system_nk.commande(com)
 
 def init_ctrl():
