@@ -33,6 +33,10 @@ def xclip():
 	com = 'xclip -o'
 	return system_nk.commande(com)
 
+def init_ctrl():
+	system_nk.execute('xdotool keydown Ctrl')
+	system_nk.execute('xdotool keyup Ctrl')
+
 def ctrl(lettre):
 	system_nk.execute('xdotool keydown Ctrl')
 	system_nk.paus(1)
