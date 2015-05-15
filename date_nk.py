@@ -1,32 +1,33 @@
 #!/usr/bin/python2.7
 
 import system_nk
+import string_nk
 
 def mois_recup(string):
     strin = system_nk.cut(string, " ", 2)
-    if match(strin, "Jan"):
+    if string_nk.match(strin, "Jan"):
         return "1"
-    if match(strin, "Feb"):
+    if string_nk.match(strin, "Feb"):
         return "2"
-    if match(strin, "Mar"):
+    if string_nk.match(strin, "Mar"):
         return "3"
-    if match(strin, "Apr"):
+    if string_nk.match(strin, "Apr"):
         return "4"
-    if match(strin, "May"):
+    if string_nk.match(strin, "May"):
         return "5"
-    if match(strin, "Jun"):
+    if string_nk.match(strin, "Jun"):
         return "6"
-    if match(strin, "Jul"):
+    if string_nk.match(strin, "Jul"):
         return "7"
-    if match(strin, "Aug"):
+    if string_nk.match(strin, "Aug"):
         return "8"
-    if match(strin, "Sep"):
+    if string_nk.match(strin, "Sep"):
         return "9"
-    if match(strin, "Oct"):
+    if string_nk.match(strin, "Oct"):
         return "10"
-    if match(strin, "Nov"):
+    if string_nk.match(strin, "Nov"):
         return "11"
-    if match(strin, "Dec"):
+    if string_nk.match(strin, "Dec"):
         return "12"
 
 def is_number(string):

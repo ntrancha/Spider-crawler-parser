@@ -9,102 +9,7 @@ import string_nk
 import system_nk
 import date_nk
 import control_nk
-
-def download(url):
-	attempts = 0
-	while attempts < 3:
-	    try:
-	        response = urllib2.urlopen(url, timeout = 5)
-	        content = response.read()
-                return content
-	    except urllib2.URLError as e:
-	        attempts += 1
-	        print type(e)
-
-def crawler(url, liste, rssid):
-	page0 = str(download(url))
-	page = page0.replace('\n', '')
-	page.split
-	titre = ""
-	description = ""
-	date = ""
-	seconde = ""
-	minute = ""
-	heure = ""
-	jour = ""
-	mois = ""
-	annee = ""
-	lien = ""
-	image = ""	
-	etat = 0
-	de = "++q++"
-	for ligne in page.split("<"):
-		#print ligne
-		if decoupe(ligne, 0, 1) != '/':
-			balise = system_nk.cut(ligne, ">", 0)
-			body = system_nk.cut(ligne, ">", 1)
-			#if balise == "item":
-				#etat = 1
-			if balise == "title":
-				titre = body
-			elif balise == "description":
-				description = body
-				if len(description) > 0:
-					etat = 1
-				else:
-					etat = 0
-			elif balise == "pubDate":
-				date = body
-				jour = format_date(jour_recup(date))
-				mois = format_date(mois_recup(date))
-				annee = annee_recup(date)
-				seconde = format_date(seconde_recup(date))
-				minute = format_date(minute_recup(date))
-				heure = format_date(heure_recup(date))
-				date1 = annee + mois + jour + " " + heure + ":" + minute + ":" + seconde
-				date0 = datetime.datetime.strptime(date1, "%Y%m%d %H:%M:%S")
-				timestamp = calendar.timegm(date0.utctimetuple())
-			elif match(balise, "link"):
-				lien = body
-			elif match(balise, "enclosure") and match(balise,"url="):
-				image = system_nk.cut(balise, '"', 1)
-			else:
-				if etat == 1:
-					etat = 0
-					chaine = str(timestamp) +de+ rssid +de+ titre +de+ description +de+ lien +de+ image
-					liste.append(chaine)
-
-def youtube(url, liste, rssid):
-	page0 = str(download(url))
-	page = page0.replace('\n', '')
-	page.split
-	for ligne in page.split("<"):
-		if match(ligne, "minutes") == 1:
-			duree = system_nk.cut(ligne, '>', 1)
-		if match(ligne, "yt-uix-tile-link") == 1 and match(ligne, "watch?v="):
-			lien = system_nk.cut(ligne, '"', 11)
-			lien = "https://www.youtube.com" + lien
-			crawler_youtube(lien, liste, rssid)
-		if match(ligne, "yt-uix-button-content") == 1 and match(ligne, "Plus"):
-			break
-
-def crawler_youtube(url, liste, rssid):
-	de = "++q++"
-	page0 = str(download(url))
-	page = page0.replace('\n', '')
-	page.split
-	for ligne in page.split("<"):
-		if match(ligne, "watch-title") == 1 and match(ligne, "eow-title") == 1:
-			titre = system_nk.cut(ligne, '"', 7)
-			url0 = system_nk.cut(url, '=', 1)
-			frame = '<iframe width="853" height="480" src="https://www.youtube.com/embed/'+url0+'" frameborder="0" allowfullscreen></iframe>'
-			chaine = str(timestamp) +de+ rssid +de+ titre +de+ date +de+ url +de+ frame
-			liste.append(chaine)
-                        #add_vgs(titre, date, url, frame)
-		if match(ligne, "datePublished") == 1:
-			date =  system_nk.cut(ligne, '"', 3)
-			date0 = datetime.datetime.strptime(date, "%Y-%m-%d")
-			timestamp = calendar.timegm(date0.utctimetuple())
+import crawler_nk
 
 def copier_texte(string):
     system_nk.ecrire("copy.txt", string)
@@ -220,7 +125,7 @@ def add_vgs(titre, date, url, frame):
 def test_url(string):
     system_nk.paus(1)
     com = commande("wmctrl -l | grep Mozilla")
-    if match(com, string) == 0:
+    if string_nk.match(com, string) == 0:
         return 0
     return 1
 
@@ -233,13 +138,13 @@ if __name__=='__main__':
 	contenu = mon_fichier.readlines()
 	mon_fichier.close()
 	for line in contenu:
-		ligne = decoupe(line, 0, len(line) - 1)
+		ligne = string_nk.decoupe(line, 0, len(line) - 1)
 		rssid = system_nk.cut(ligne, ";", 0)
 		url = system_nk.cut(ligne, ";", 1)
-		if match(url, "youtube") == 1:
-			youtube(url, liste, rssid)
+		if string_nk.match(url, "youtube") == 1:
+			crawler_nk.youtube(url, liste, rssid)
 		#else
-			#crawler(url, liste, rssid)
+			#crawler_nk.crawler(url, liste, rssid)
                 #break
 	liste.sort(reverse=True)
         sav_article(liste)

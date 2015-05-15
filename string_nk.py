@@ -1,5 +1,7 @@
 #!/usr/bin/python2.7
 
+import string_nk
+
 def decoupe(string, start, size):
     index = 0
     ret = ""
