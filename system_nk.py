@@ -41,3 +41,7 @@ def delete(fichier):
 def ecrire(fichier, string):
     commande = 'echo "' + string + '" > ' + fichier
     execute(commande)
+
+def fenetres(string):
+	com = 'wmctrl -l | grep "' + string + '"'
+	return commande(com)

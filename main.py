@@ -147,5 +147,5 @@ if __name__=='__main__':
 			#crawler_nk.crawler(url, liste, rssid)
                 #break
 	liste.sort(reverse=True)
-        sav_article(liste)
+        #sav_article(liste)
 	print liste
