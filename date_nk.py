@@ -1,10 +1,9 @@
 #!/usr/bin/python2.7
 
-import system_nk
 import string_nk
 
 def mois_recup(string):
-	strin = system_nk.cut(string, " ", 2)
+	strin = string_nk.cut(string, " ", 2)
 	if string_nk.match(strin, "Jan"):
 		return "1"
 	if string_nk.match(strin, "Feb"):
@@ -44,18 +43,18 @@ def format_date(string):
 		if len(string) == 1:
 			ret 
 def jour_recup(string):
-	format_date(system_nk.cut(string, " ", 1))
-	return system_nk.cut(string, " ", 1)
+	format_date(string_nk.cut(string, " ", 1))
+	return string_nk.cut(string, " ", 1)
 
 def annee_recup(string):
-	return system_nk.cut(string, " ", 3)
+	return string_nk.cut(string, " ", 3)
 
 def seconde_recup(string):
-	return system_nk.cut(system_nk.cut(string, " ", 4), ":", 2)
+	return string_nk.cut(string_nk.cut(string, " ", 4), ":", 2)
 
 def minute_recup(string):
-	return system_nk.cut(system_nk.cut(string, " ", 4), ":", 1)
+	return string_nk.cut(string_nk.cut(string, " ", 4), ":", 1)
 
 def heure_recup(string):
-	return system_nk.cut(system_nk.cut(string, " ", 4), ":", 0)
+	return string_nk.cut(string_nk.cut(string, " ", 4), ":", 0)
 

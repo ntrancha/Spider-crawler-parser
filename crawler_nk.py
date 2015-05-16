@@ -1,12 +1,11 @@
 #!/usr/bin/python2.7
 
 import string_nk
-import system_nk
+import control_nk
 import date_nk
 import urllib2
 import calendar
 import datetime
-import time
 
 def download(url):
 	attempts = 0
@@ -72,7 +71,32 @@ def crawler(url, liste, rssid):
 					chaine = str(timestamp) +de+ rssid +de+ titre +de+ description +de+ lien +de+ image
 					liste.append(chaine)
 
-def youtube(url, liste, rssid):
+def test_titre(titre):
+	control_nk.dcp(196, 110, 1, 1)								  	# VGS #
+	control_nk.dcp(226, 304, 1, 3)								  	# ADMIN #
+	if control_nk.test_url("Administration - Panneau d'administration") == 0:
+		return test_titre(titre)
+	control_nk.dcp(1138, 314, 1, 3)							   		# Gestion articles #
+	if control_nk.test_url("Administration - Gestion des articles") == 0:
+		return test_titre(titre)
+	control_nk.dcp(544, 289, 1, 3)							   		# Effacer #
+	if control_nk.test_url("Administration - Gestion des articles") == 0:
+		return test_titre(titre)
+	control_nk.ddcp(271, 290, 1, 1)							   		# Rechercher #
+	control_nk.copier(titre)
+	control_nk.ctrl_V()
+	control_nk.dcp(505, 289, 1, 3)							   		# Recherche #
+	if control_nk.test_url("Administration - Gestion des articles") == 0:
+		return test_titre(titre)
+	control_nk.ddcp(972, 368, 1, 1)							   		# Public #
+	control_nk.ctrl_C()
+	test = control_nk.xclip()
+	if string_nk.match(test, "Public") == 1:
+		print "[][][] Deja present !!!"
+		return 0
+	return 1
+
+def youtube(url, liste, rssid, count):
 	page0 = str(download(url))
 	page = page0.replace('\n', '')
 	page.split
@@ -82,9 +106,11 @@ def youtube(url, liste, rssid):
 		if string_nk.match(ligne, "yt-uix-tile-link") == 1 and string_nk.match(ligne, "watch?v="):
 			lien = string_nk.cut(ligne, '"', 11)
 			lien = "https://www.youtube.com" + lien
-			crawler_youtube(lien, liste, rssid)
+			if crawler_youtube(lien, liste, rssid) == 0:
+				break
 		if string_nk.match(ligne, "yt-uix-button-content") == 1 and string_nk.match(ligne, "Plus"):
 			break
+		count += 1
 
 def crawler_youtube(url, liste, rssid):
 	de = "++q++"
@@ -93,7 +119,11 @@ def crawler_youtube(url, liste, rssid):
 	page.split
 	for ligne in page.split("<"):
 		if string_nk.match(ligne, "watch-title") == 1 and string_nk.match(ligne, "eow-title") == 1:
-			titre = string_nk.cut(ligne, '"', 7)
+			titre = string_nk.str_replace(string_nk.cut(ligne, '"', 7))
+			print "=>" + titre
+			if test_titre(titre) == 0:
+				return 0
+				break
 			url0 = string_nk.cut(url, '=', 1)
 			frame = '<iframe width="853" height="480" src="https://www.youtube.com/embed/'+url0+'" frameborder="0" allowfullscreen></iframe>'
 			chaine = str(timestamp) +de+ rssid +de+ titre +de+ date +de+ url +de+ frame
@@ -102,4 +132,5 @@ def crawler_youtube(url, liste, rssid):
 			date =  string_nk.cut(ligne, '"', 3)
 			date0 = datetime.datetime.strptime(date, "%Y-%m-%d")
 			timestamp = calendar.timegm(date0.utctimetuple())
+	return 1
 

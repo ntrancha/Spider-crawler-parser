@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 
 import system_nk
+import string_nk
 
 def deplace(x, y):
 	commande = "xdotool mousemove " + str(x) + " " + str(y)
@@ -17,17 +18,26 @@ def clavier(string):
 def dcp(x, y, buttom, wait):
 	deplace(x, y)
 	clic(buttom)
-	clic(buttom)
 	system_nk.paus(wait)
 
 def ddcp(x, y, buttom, wait):
 	deplace(x, y)
+	clic(buttom)
 	clic(buttom)
 	system_nk.paus(wait)
 
 def copier(string):
 	com = 'echo "' + string + '" | xsel -b'
 	system_nk.execute(com)
+
+def ctrl_A():
+	ctrl("a")
+
+def ctrl_C():
+	ctrl("c")
+
+def ctrl_V():
+	ctrl("v")
 
 def xclip():
 	com = 'xsel -b'
@@ -37,10 +47,20 @@ def init_ctrl():
 	system_nk.execute('xdotool keydown Ctrl')
 	system_nk.execute('xdotool keyup Ctrl')
 
+def enter():
+	system_nk.execute('xdotool key KP_Enter')
+
 def ctrl(lettre):
 	system_nk.execute('xdotool keydown Ctrl')
 	system_nk.paus(1)
 	commande = "xdotool key " + lettre
-	system_nk.execute('xdotool key v')
+	system_nk.execute(commande)
 	system_nk.paus(1)
 	system_nk.execute('xdotool keyup Ctrl')
+
+def test_url(string):
+    system_nk.paus(1)
+    com = system_nk.commande("wmctrl -l | grep Mozilla")
+    if string_nk.match(com, string) == 0:
+        return 0
+    return 1
