@@ -2,6 +2,7 @@
 
 import string_nk
 import control_nk
+import spider_nk
 import date_nk
 import urllib2
 import calendar
@@ -96,7 +97,7 @@ def test_titre(titre):
 		return 0
 	return 1
 
-def youtube(url, liste, rssid, count):
+def youtube(url, liste, rssid, count, cat):
 	page0 = str(download(url))
 	page = page0.replace('\n', '')
 	page.split
@@ -106,13 +107,15 @@ def youtube(url, liste, rssid, count):
 		if string_nk.match(ligne, "yt-uix-tile-link") == 1 and string_nk.match(ligne, "watch?v="):
 			lien = string_nk.cut(ligne, '"', 11)
 			lien = "https://www.youtube.com" + lien
-			if crawler_youtube(lien, liste, rssid) == 0:
-				break
+			print "Traitement ... [" + str(count)  + "]"
+			if crawler_youtube(lien, liste, rssid, cat) == 0:
+				#break
+				print "========================================="
 		if string_nk.match(ligne, "yt-uix-button-content") == 1 and string_nk.match(ligne, "Plus"):
 			break
 		count += 1
 
-def crawler_youtube(url, liste, rssid):
+def crawler_youtube(url, liste, rssid, cat):
 	de = "++q++"
 	page0 = str(download(url))
 	page = page0.replace('\n', '')
@@ -126,8 +129,9 @@ def crawler_youtube(url, liste, rssid):
 				break
 			url0 = string_nk.cut(url, '=', 1)
 			frame = '<iframe width="853" height="480" src="https://www.youtube.com/embed/'+url0+'" frameborder="0" allowfullscreen></iframe>'
-			chaine = str(timestamp) +de+ rssid +de+ titre +de+ date +de+ url +de+ frame
+			chaine = str(timestamp) +de+ rssid +de+ titre +de+ date +de+ cat +de+ frame
 			liste.append(chaine)
+			spider_nk.sav_article(liste)
 		if string_nk.match(ligne, "datePublished") == 1:
 			date =  string_nk.cut(ligne, '"', 3)
 			date0 = datetime.datetime.strptime(date, "%Y-%m-%d")
