@@ -59,8 +59,9 @@ def ctrl(lettre):
 	system_nk.execute('xdotool keyup Ctrl')
 
 def test_url(string):
-    system_nk.paus(1)
-    com = system_nk.commande("wmctrl -l | grep Mozilla")
-    if string_nk.match(com, string) == 0:
-        return 0
-    return 1
+	system_nk.paus(1)
+	com = system_nk.commande("wmctrl -l | grep Mozilla")
+	if string_nk.match(com, string) == 0:
+		print "[ERREUR] Page indisponible !"
+		return 0
+	return 1

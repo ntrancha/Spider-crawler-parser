@@ -19,25 +19,31 @@ def sav_article(liste):
 		article_nk.articles(titre, date, url, frame, chaine)
 		liste.remove(val)
 
-def recup_liste(fichier, liste):
+def recup_liste(fichier, liste, num, maxi):
 	count = 0
 	mon_fichier = open(fichier, "r")
 	contenu = mon_fichier.readlines()
 	mon_fichier.close()
 	print "Lecture du fichier [" + fichier  + "]"
+	print "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 	for line in contenu:
 		ligne = string_nk.decoupe(line, 0, len(line) - 1)
 		chaine = string_nk.cut(ligne, ";", 0)
 		url = string_nk.cut(ligne, ";", 1)
 		cat = string_nk.cut(ligne, ";", 2)
 		if string_nk.match(url, "youtube") == 1:
-			print "Chaine Youtube [" + chaine + "]"
-			crawler_nk.youtube(url, liste, chaine, count, cat)
+			count += 1
+			if count >= int(num):
+				print "Chaine Youtube [" + chaine + "] (" + str(count) + ")"
+				crawler_nk.youtube(url, liste, chaine, count, cat)
+				print "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+				if count == num + maxi:
+					break
 		#else
 			#crawler_nk.crawler(url, liste, rssid)
 	return liste
 
-def spider():
+def spider(num, maxi):
 	liste = []
-	recup_liste("flux.nk", liste)
+	recup_liste("flux.nk", liste, num, maxi)
 	liste.sort(reverse=True)

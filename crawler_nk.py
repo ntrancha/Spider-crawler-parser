@@ -73,6 +73,7 @@ def crawler(url, liste, rssid):
 					liste.append(chaine)
 
 def test_titre(titre):
+	print "Test de doublon ..."
 	control_nk.dcp(196, 110, 1, 1)								  	# VGS #
 	control_nk.dcp(226, 304, 1, 3)								  	# ADMIN #
 	if control_nk.test_url("Administration - Panneau d'administration") == 0:
@@ -101,19 +102,21 @@ def youtube(url, liste, rssid, count, cat):
 	page0 = str(download(url))
 	page = page0.replace('\n', '')
 	page.split
+	compteur = 0
 	for ligne in page.split("<"):
 		if string_nk.match(ligne, "minutes") == 1:
 			duree = string_nk.cut(ligne, '>', 1)
 		if string_nk.match(ligne, "yt-uix-tile-link") == 1 and string_nk.match(ligne, "watch?v="):
 			lien = string_nk.cut(ligne, '"', 11)
 			lien = "https://www.youtube.com" + lien
-			print "Traitement ... [" + str(count)  + "]"
+			compteur += 1
+			print "Traitement ... [" + str(compteur)  + "]"
 			if crawler_youtube(lien, liste, rssid, cat) == 0:
 				#break
-				print "========================================="
+				a = 1
 		if string_nk.match(ligne, "yt-uix-button-content") == 1 and string_nk.match(ligne, "Plus"):
 			break
-		count += 1
+	print "========================================="
 
 def crawler_youtube(url, liste, rssid, cat):
 	de = "++q++"
@@ -123,7 +126,9 @@ def crawler_youtube(url, liste, rssid, cat):
 	for ligne in page.split("<"):
 		if string_nk.match(ligne, "watch-title") == 1 and string_nk.match(ligne, "eow-title") == 1:
 			titre = string_nk.str_replace(string_nk.cut(ligne, '"', 7))
-			print "=>" + titre
+			print "=> " + rssid
+			print "=> " + cat
+			print "=> " + titre
 			if test_titre(titre) == 0:
 				return 0
 				break
