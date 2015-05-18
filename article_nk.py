@@ -53,22 +53,31 @@ def param(titre, date, url, frame, chaine, liste, test):
 	enregistrer(titre, date, url ,frame, chaine, liste, test)
 
 def enregistrer(titre, date, url, frame, chaine, liste, test):
-	control_nk.dcp(149, 232, 1, 6)									# enregistrer #
-	if control_nk.test_url("Modifier") == 0 and test == 0:
-		if crawler_nk.test_titre(titre) == 0:
+	control_nk.dcp(149, 232, 1, 8)									# enregistrer #
+	if control_nk.test_url("Modifier") == 0:		# Mauvaise page
+		if test == 0:								# 2eme test
+			if crawler_nk.test_titre(titre, 0) == 0:	# Mauvaise page
+				print "\033[1m\033[91mError (topic)\033[0m"
+				spider_nk.sav_article(liste, test)
+			else:									# Bonne page
+				print "\033[1m\033[92mTopic added\033[0m"
+				val = liste[0]
+				liste.remove(val)
+				commande = 'echo "' + titre + '" >> sav.nk'
+        		system_nk.execute(commande)
+		else:										# Rate
+			print "\033[1m\033[91mError (topic)\033[0m"
 			val = liste[0]
 			liste.remove(val)
-			print "\033[1m\033[92mArticle ajoute\033[0m"
-		else:
-			test += 1
-			spider_nk.sav_article(liste, test)
-	else:
-		if test == 1:
-			print "\033[1m\033[91mErreur article\033[0m"
+	else:											# Bonne page
+		print "\033[1m\033[92mTopic added\033[0m"
 		val = liste[0]
 		liste.remove(val)
+		commande = 'echo "' + titre + '" >> sav.nk'
+        system_nk.execute(commande)
 
 def articles(titre, date, url, frame, chaine, liste, test):
+	print "test n :    \t\t" + str(test)
 	if test == 0:
-		print "\033[1m\033[92mAjout de l'article ...\033[0m"
+		print "\033[1m\033[92mAdding topic on vogsphere\033[0m"
 	admin(titre, date, url, frame, chaine, liste, test)
