@@ -32,12 +32,15 @@ def copier(string):
 
 def ctrl_A():
 	ctrl("a")
+	system_nk.paus(1)
 
 def ctrl_C():
 	ctrl("c")
+	system_nk.paus(1)
 
 def ctrl_V():
 	ctrl("v")
+	system_nk.paus(1)
 
 def xclip():
 	com = 'xsel -b'
@@ -57,11 +60,11 @@ def ctrl(lettre):
 	system_nk.execute(commande)
 	system_nk.paus(1)
 	system_nk.execute('xdotool keyup Ctrl')
+	system_nk.paus(1)
 
 def test_url(string):
 	system_nk.paus(1)
 	com = system_nk.commande("wmctrl -l | grep Mozilla")
 	if string_nk.match(com, string) == 0:
-		print "[ERREUR] Page indisponible !"
 		return 0
 	return 1
