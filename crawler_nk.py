@@ -74,7 +74,7 @@ def crawler(url, liste, rssid):
 					liste.append(chaine)
 
 def test_titre2(titre):
-	test = system_nk.commande('grep "'+titre+'" sav.nk | wc -l')
+	test = system_nk.commande('grep "'+string_nk.str_replace2(titre)+'" sav.nk | wc -l')
 	if int(test) == 0:
 		print "\033[1m\033[92mNew topic\033[0m"
 		return 1
@@ -88,25 +88,28 @@ def test_titre(titre, test):
 		print "\033[94m* Testing Double topics"
 	control_nk.dcp(196, 110, 1, 2)								  	# VGS #
 	control_nk.dcp(226, 304, 1, 6)								  	# ADMIN #
-	if control_nk.test_url("Administration - Panneau d'administration") == 0:
+	if control_nk.test_url2("Administration - Panneau d'administration") == 0:
 		return test_titre(titre, test)
 	control_nk.dcp(1138, 314, 1, 6)							   		# Gestion articles #
-	if control_nk.test_url("Administration - Gestion des articles") == 0:
+	if control_nk.test_url2("Administration - Gestion des articles") == 0:
 		return test_titre(titre, test)
 	control_nk.dcp(544, 289, 1, 6)							   		# Effacer #
-	if control_nk.test_url("Administration - Gestion des articles") == 0:
+	if control_nk.test_url2("Administration - Gestion des articles") == 0:
 		return test_titre(titre, test)
 	control_nk.ddcp(271, 290, 1, 2)							   		# Rechercher #
 	control_nk.copier(titre)
 	control_nk.ctrl_V()
 	control_nk.dcp(505, 289, 1, 6)							   		# Recherche #
-	if control_nk.test_url("Administration - Gestion des articles") == 0:
+	if control_nk.test_url2("Administration - Gestion des articles") == 0:
 		return test_titre(titre, test)
 	control_nk.ddcp(972, 368, 1, 2)							   		# Public #
 	control_nk.ctrl_C()
 	test = control_nk.xclip()
 	if string_nk.match(test, "Public") == 1:
 		print "\033[1m\033[91mTopic exist\033[0m"
+		if int(system_nk.commande('grep "'+titre+'" sav.nk | wc -l')) == 0:
+			commande = 'echo "' + string_nk.str_replace2(titre) + '" >> sav.nk'
+ 			system_nk.execute(commande)
 		return 0
 	return 1
 

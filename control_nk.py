@@ -66,5 +66,13 @@ def test_url(string):
 	system_nk.paus(1)
 	com = system_nk.commande("wmctrl -l | grep Mozilla")
 	if string_nk.match(com, string) == 0:
+		print "\033[0m\033[91m<Disconnect>\033[0m"
+		return 0
+	return 1
+
+def test_url2(string):
+	system_nk.paus(1)
+	com = system_nk.commande("wmctrl -l | grep Mozilla")
+	if string_nk.match(com, string) == 0:
 		return 0
 	return 1

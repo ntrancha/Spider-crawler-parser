@@ -9,6 +9,22 @@ def str_replace(string):
     retu = ret.replace("&amp;", '&')
     return retu
 
+def str_replace2(string):
+    ret = str(string)
+    retu = ret.replace("&#39;", "'")
+    ret = retu.replace("&quot;", '"')
+    retu = ret.replace("&amp;", ' et ')
+    ret = retu.replace('"', "'")
+    retu = ret.replace("#", ' ')
+    ret = retu.replace('!', " ")
+    retu = ret.replace("?", ' ')
+    ret = retu.replace('?', " ")
+    retu = ret.replace(",", ' ')
+    ret = retu.replace(';', "'")
+    retu = ret.replace("/", ' ')
+    retu = ret.replace("\\", ' ')
+    return retu
+
 def decoupe(string, start, size):
 	index = 0
 	ret = ""

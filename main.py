@@ -9,7 +9,9 @@ def	start():
 	pid = os.getpid()
 	commande = 'echo "' + str(pid) + '" > spider.pid'
 	system_nk.execute(commande)
-	print "Spider   - Crawler -\nv 1.0\n\nProcess ID : " + str(pid) + "\n"
+	print "\t\tSpider\t  - Crawler -\t v 1.0\n"
+	print "\033[93m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\033[0m\033[94m"
+	print "\033[97mProcess ID \t\t[\033[93m\033[1m" + str(pid)  + "\033[0m\033[97m]"
 	control_nk.init_ctrl()
 
 if __name__=='__main__':

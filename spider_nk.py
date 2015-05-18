@@ -2,6 +2,7 @@
 
 import os
 import string_nk
+import system_nk
 import crawler_nk
 import article_nk
 
@@ -23,8 +24,14 @@ def recup_liste(fichier, liste, num, maxi):
 	mon_fichier = open(fichier, "r")
 	contenu = mon_fichier.readlines()
 	mon_fichier.close()
-	print "\033[94mFile reading \t\t[\033[93m\033[1m" + fichier  + "\033[0m\033[94m]"
-	print "\033[95m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\033[0m\033[94m"
+	print "\033[97mFile reading \t\t[\033[93m\033[1m" + fichier  + "\033[0m\033[97m]"
+	com = 'cat ' + fichier + ' | wc -l'
+	ret = int(system_nk.commande(com))
+	print "\033[97mNumber of channel\t[\033[93m\033[1m" + str(ret)  + "\033[0m\033[97m]"
+	com = 'cat sav.nk | wc -l'
+	ret = int(system_nk.commande(com))
+	print "\033[97mNumber of topic\t\t[\033[93m\033[1m" + str(ret)  + "\033[0m\033[97m]"
+	print "\033[93m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\033[0m\033[94m"
 	for line in contenu:
 		ligne = string_nk.decoupe(line, 0, len(line) - 1)
 		chaine = string_nk.cut(ligne, ";", 0)
@@ -33,9 +40,10 @@ def recup_liste(fichier, liste, num, maxi):
 		if string_nk.match(url, "youtube") == 1:
 			count += 1
 			if count >= int(num):
+				print "\n\n\033[95m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\033[0m\033[94m"
 				print "Youtube channel \t[\033[92m\033[1m" + chaine + "\033[0m\033[94m] (n_\033[92m" + str(count) + "\033[94m)"
+				print "\033[95m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\033[0m\033[94m\n"
 				crawler_nk.youtube(url, liste, chaine, count, cat)
-				print "\033[95m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\033[0m\033[94m"
 				if count == int(num) + int(maxi):
 					break
 		#else
