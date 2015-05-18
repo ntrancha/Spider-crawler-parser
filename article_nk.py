@@ -3,6 +3,7 @@
 import control_nk
 import spider_nk
 import crawler_nk
+import system_nk
 
 def admin(titre, date, url, frame, chaine, liste, test):
 	control_nk.dcp(196, 110, 1, 2)									# VGS #
@@ -54,30 +55,38 @@ def param(titre, date, url, frame, chaine, liste, test):
 
 def enregistrer(titre, date, url, frame, chaine, liste, test):
 	control_nk.dcp(149, 232, 1, 8)									# enregistrer #
+	test = system_nk.commande('grep "'+titre+'" sav.nk | wc -l')
 	if control_nk.test_url("Modifier") == 0:		# Mauvaise page
 		if test == 0:								# 2eme test
 			if crawler_nk.test_titre(titre, 0) == 0:	# Mauvaise page
 				print "\033[1m\033[91mError (topic)\033[0m"
 				spider_nk.sav_article(liste, test)
+				if int(test) == 0:
+					commande = 'echo "' + titre + '" >> sav.nk'
+					system_nk.execute(commande)
 			else:									# Bonne page
 				print "\033[1m\033[92mTopic added\033[0m"
 				val = liste[0]
 				liste.remove(val)
-				commande = 'echo "' + titre + '" >> sav.nk'
-        		system_nk.execute(commande)
+				if int(test) == 0:
+					commande = 'echo "' + titre + '" >> sav.nk'
+					system_nk.execute(commande)
 		else:										# Rate
-			print "\033[1m\033[91mError (topic)\033[0m"
+			print "\033[1m\033[91mError (topic) 2\033[0m"
 			val = liste[0]
 			liste.remove(val)
+			if int(test) == 0:
+				commande = 'echo "' + titre + '" >> sav.nk'
+				system_nk.execute(commande)
 	else:											# Bonne page
 		print "\033[1m\033[92mTopic added\033[0m"
 		val = liste[0]
 		liste.remove(val)
-		commande = 'echo "' + titre + '" >> sav.nk'
-        system_nk.execute(commande)
+		if int(test) == 0:
+			commande = 'echo "' + titre + '" >> sav.nk'
+			system_nk.execute(commande)
 
 def articles(titre, date, url, frame, chaine, liste, test):
-	print "test n :    \t\t" + str(test)
 	if test == 0:
 		print "\033[1m\033[92mAdding topic on vogsphere\033[0m"
 	admin(titre, date, url, frame, chaine, liste, test)
