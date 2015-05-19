@@ -85,7 +85,7 @@ def test_titre2(titre):
 def test_titre(titre, test):
 	test += 1
 	if test == 1:
-		print "\033[94m* Testing Double topics"
+		print "\033[94m  Testing Double topics"
 	control_nk.dcp(196, 110, 1, 2)								  	# VGS #
 	control_nk.dcp(226, 304, 1, 6)								  	# ADMIN #
 	if control_nk.test_url2("Administration - Panneau d'administration") == 0:
@@ -108,6 +108,7 @@ def test_titre(titre, test):
 	if string_nk.match(test, "Public") == 1:
 		print "\033[1m\033[91mTopic exist\033[0m"
 		if int(system_nk.commande('grep "'+titre+'" sav.nk | wc -l')) == 0:
+			print "\033[93mAdd topic"
 			commande = 'echo "' + string_nk.str_replace2(titre) + '" >> sav.nk'
  			system_nk.execute(commande)
 		return 0
@@ -126,7 +127,7 @@ def youtube(url, liste, rssid, count, cat):
 			lien = "https://www.youtube.com" + lien
 			compteur += 1
 			print "\033[95m=================================================================================="
-			print "\033[94m* Crawling ...\t\t[\033[92m\033[1m" + str(compteur)  + "\033[0m\033[94m]"
+			print "\033[94m  Crawling ...\t\t[\033[92m\033[1m" + str(compteur)  + "\033[0m\033[94m]"
 			if crawler_youtube(lien, liste, rssid, cat) == 0:
 				#break
 				a = 1
