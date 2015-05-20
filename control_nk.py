@@ -18,13 +18,15 @@ def clavier(string):
 def dcp(x, y, buttom, wait):
 	deplace(x, y)
 	clic(buttom)
-	system_nk.paus(wait)
+	time = int(wait) * 100 / 2
+	system_nk.sleep(str(time))
 
 def ddcp(x, y, buttom, wait):
 	deplace(x, y)
 	clic(buttom)
 	clic(buttom)
-	system_nk.paus(wait)
+	time = int(wait) * 100 / 2
+	system_nk.sleep(str(time))
 
 def copier(string):
 	com = 'echo "' + string + '" | xsel -b'
@@ -32,15 +34,15 @@ def copier(string):
 
 def ctrl_A():
 	ctrl("a")
-	system_nk.paus(1)
+	system_nk.sleep(30)
 
 def ctrl_C():
 	ctrl("c")
-	system_nk.paus(1)
+	system_nk.sleep(30)
 
 def ctrl_V():
 	ctrl("v")
-	system_nk.paus(1)
+	system_nk.sleep(30)
 
 def xclip():
 	com = 'xsel -b'
@@ -55,15 +57,15 @@ def enter():
 
 def ctrl(lettre):
 	system_nk.execute('xdotool keydown Ctrl')
-	system_nk.paus(1)
+	system_nk.sleep(30)
 	commande = "xdotool key " + lettre
 	system_nk.execute(commande)
-	system_nk.paus(1)
+	system_nk.sleep(30)
 	system_nk.execute('xdotool keyup Ctrl')
-	system_nk.paus(1)
+	system_nk.sleep(30)
 
 def test_url(string):
-	system_nk.paus(1)
+	system_nk.sleep(30)
 	com = system_nk.commande("wmctrl -l | grep Mozilla")
 	if string_nk.match(com, string) == 0:
 		print "\033[0m\033[91m<Disconnect>\033[0m"
@@ -71,7 +73,7 @@ def test_url(string):
 	return 1
 
 def test_url2(string):
-	system_nk.paus(1)
+	system_nk.sleep(30)
 	com = system_nk.commande("wmctrl -l | grep Mozilla")
 	if string_nk.match(com, string) == 0:
 		return 0

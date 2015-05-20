@@ -14,8 +14,11 @@ def download(url):
 	while attempts < 3:
 		try:
 			response = urllib2.urlopen(url, timeout = 5)
-			content = response.read()
-			return content
+			try:
+				content = response.read()
+				return content
+			except urllib2.URLError as e:
+				print type(e)
 		except urllib2.URLError as e:
 			attempts += 1
 			print type(e)
@@ -87,25 +90,25 @@ def test_titre(titre, test):
 	if test == 1:
 		print "\033[94m  Testing Double topics"
 	control_nk.dcp(196, 110, 1, 2)								  	# VGS #
-	control_nk.dcp(226, 304, 1, 6)								  	# ADMIN #
+	control_nk.dcp(226, 304, 1, 5)								  	# ADMIN #
 	if control_nk.test_url2("Administration - Panneau d'administration") == 0:
 		return test_titre(titre, test)
-	control_nk.dcp(1138, 314, 1, 6)							   		# Gestion articles #
+	control_nk.dcp(1138, 314, 1, 5)							   		# Gestion articles #
 	if control_nk.test_url2("Administration - Gestion des articles") == 0:
 		return test_titre(titre, test)
-	control_nk.dcp(544, 289, 1, 6)							   		# Effacer #
+	control_nk.dcp(544, 289, 1, 5)							   		# Effacer #
 	if control_nk.test_url2("Administration - Gestion des articles") == 0:
 		return test_titre(titre, test)
 	control_nk.ddcp(271, 290, 1, 2)							   		# Rechercher #
 	control_nk.copier(titre)
 	control_nk.ctrl_V()
-	control_nk.dcp(505, 289, 1, 6)							   		# Recherche #
+	control_nk.dcp(505, 289, 1, 5)							   		# Recherche #
 	if control_nk.test_url2("Administration - Gestion des articles") == 0:
 		return test_titre(titre, test)
-	control_nk.ddcp(972, 368, 1, 2)							   		# Public #
+	control_nk.ddcp(972, 368, 1, 5)							   		# Public #
 	control_nk.ctrl_C()
 	test = control_nk.xclip()
-	if string_nk.match(test, "Public") == 1:
+	if string_nk.match(test, "Public") == 1 or control_nk.test_url2("Modifier un article") == 1:
 		print "\033[1m\033[91mTopic exist\033[0m"
 		if int(system_nk.commande('grep "'+titre+'" sav.nk | wc -l')) == 0:
 			print "\033[93mAdd topic"

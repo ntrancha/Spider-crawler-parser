@@ -24,6 +24,11 @@ def paus(time):
 	execute(com)
 	return 1
 
+def sleep(time):
+	com = "./pause " + str(time)
+	execute(com)
+	return 1
+
 def execute(ordre):
 	try:
 		os.system(ordre)

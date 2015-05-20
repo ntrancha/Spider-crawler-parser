@@ -43,6 +43,8 @@ def recup_liste(fichier, liste, num, maxi):
 				print "\n\n\033[95m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\033[0m\033[94m"
 				print "Youtube channel \t[\033[92m\033[1m" + chaine + "\033[0m\033[94m] (n_\033[92m" + str(count) + "\033[94m)"
 				print "\033[95m\033[1m=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\033[0m\033[94m\n"
+				com = "echo '"+str(count)+"' > mark.nk" 
+				system_nk.execute(com)
 				crawler_nk.youtube(url, liste, chaine, count, cat)
 				if count == int(num) + int(maxi):
 					break

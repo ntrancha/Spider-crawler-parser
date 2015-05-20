@@ -18,12 +18,16 @@ def str_replace2(string):
     retu = ret.replace("#", ' ')
     ret = retu.replace('!', " ")
     retu = ret.replace("?", ' ')
-    ret = retu.replace('?', " ")
+    ret = retu.replace('.', " ")
     retu = ret.replace(",", ' ')
     ret = retu.replace(';', "'")
+    retu = ret.replace("[", '(')
+    ret = retu.replace("]", ')')
+    retu = ret.replace("{", '(')
+    ret = retu.replace("}", ')')
     retu = ret.replace("/", ' ')
-    retu = ret.replace("\\", ' ')
-    return retu
+    ret = retu.replace("\\", ' ')
+    return ret
 
 def decoupe(string, start, size):
 	index = 0

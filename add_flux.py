@@ -35,7 +35,7 @@ def add(chaine, categorie, fichier, num):
 		commande = 'echo "' + chaine + ';' + adresse + ';' + categorie + '" >> ' + fichier
 		system_nk.execute(commande)
 		print "================Nouveau flux youtube======================"
-		print num + " : " + chaine + " [" + categorie + "]"
+		print str(num) + " : " + chaine + " [" + categorie + "]"
 		print adresse
 	else:
 		print "=======================Erreur============================="
