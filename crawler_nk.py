@@ -3,6 +3,7 @@
 import string_nk
 import control_nk
 import spider_nk
+import print_nk
 import system_nk
 import date_nk
 import urllib2
@@ -79,16 +80,16 @@ def crawler(url, liste, rssid):
 def test_titre2(titre):
 	test = system_nk.commande('grep "'+string_nk.str_replace2(titre)+'" sav.nk | wc -l')
 	if int(test) == 0:
-		print "\033[1m\033[92mNew topic\033[0m"
+		print_nk.printc("New topic", "Green", 1, 4)
 		return 1
 	else:
-		print "\033[1m\033[91mTopic exist\033[0m"
+		print_nk.printc("Topic exist", "Red", 1, 4)
 		return 0
 
 def test_titre(titre, test):
 	test += 1
 	if test == 1:
-		print "\033[94m  Testing Double topics"
+		print_nk.printc("Testing Double topics", "Blue", 0, 0)
 	control_nk.dcp(196, 110, 1, 2)								  	# VGS #
 	control_nk.dcp(226, 304, 1, 5)								  	# ADMIN #
 	if control_nk.test_url2("Administration - Panneau d'administration") == 0:
@@ -109,9 +110,9 @@ def test_titre(titre, test):
 	control_nk.ctrl_C()
 	test = control_nk.xclip()
 	if string_nk.match(test, "Public") == 1 or control_nk.test_url2("Modifier un article") == 1:
-		print "\033[1m\033[91mTopic exist\033[0m"
+		print_nk.printc("Topic exist", "Red", 1, 2)
 		if int(system_nk.commande('grep "'+titre+'" sav.nk | wc -l')) == 0:
-			print "\033[93mAdd topic"
+			print_nk.printc("Added topic", "Green", 0, 2)
 			commande = 'echo "' + string_nk.str_replace2(titre) + '" >> sav.nk'
  			system_nk.execute(commande)
 		return 0
@@ -129,8 +130,11 @@ def youtube(url, liste, rssid, count, cat):
 			lien = string_nk.cut(ligne, '"', 11)
 			lien = "https://www.youtube.com" + lien
 			compteur += 1
-			print "\033[95m=================================================================================="
-			print "\033[94m  Crawling ...\t\t[\033[92m\033[1m" + str(compteur)  + "\033[0m\033[94m]"
+			print_nk.printc("==================================================================================", "Purple", 0, 0)
+			chaine = print_nk.printr("Crawling ...\t\t[", "Bleu", 0, 0)
+			chaine += print_nk.printr(str(compteur), "Green", 1, 0)
+			chaine += print_nk.printr("]", "Purple", 0, 0)
+			print chaine
 			if crawler_youtube(lien, liste, rssid, cat) == 0:
 				#break
 				a = 1
@@ -145,9 +149,16 @@ def crawler_youtube(url, liste, rssid, cat):
 	for ligne in page.split("<"):
 		if string_nk.match(ligne, "watch-title") == 1 and string_nk.match(ligne, "eow-title") == 1:
 			titre = string_nk.str_replace(string_nk.cut(ligne, '"', 7))
-			print "\033[0m\033[93mChannel  \t\033[94m=> \t\033[1m\033[97m" + rssid
-			print "\033[0m\033[93mCategory \t\033[94m=> \t\033[1m\033[97m" + cat
-			print "\033[0m\033[93mVideo    \t\033[94m=> \t\033[1m\033[97m" + titre + "\033[0m\033[94m"
+			chaine = print_nk.printr("Channel  \t", "Orange", 0, 2)
+			chaine += print_nk.printr("=>", "Purple", 0, 0)
+			chaine += print_nk.printr(rssid, "White", 1, 0)
+			chaine += print_nk.printr("\nCategory \t", "Orange", 0, 2)
+			chaine += print_nk.printr("=>", "Purple", 0, 0)
+			chaine += print_nk.printr(cat, "White", 1, 0)
+			chaine += print_nk.printr("\nVideo    \t", "Orange", 0, 2)
+			chaine += print_nk.printr("=>", "Purple", 0, 0)
+			chaine += print_nk.printr(titre, "White", 1, 0)
+			print chaine
 			if test_titre2(titre) == 0:
 				return 0
 				break

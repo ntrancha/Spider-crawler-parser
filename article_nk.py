@@ -69,8 +69,8 @@ def enregistrer(titre, date, url, frame, chaine, liste, test):
 	print "\033[93m    Save"
 	control_nk.dcp(149, 232, 1, 9)									# enregistrer #
 	testa = system_nk.commande('grep "'+titre+'" sav.nk | wc -l')
-	modif = control_nk.test_url2("Modifier")
-	ajout = control_nk.test_url2("Ajouter")
+	modif = control_nk.test_url("Modifier")
+	ajout = control_nk.test_url("Ajouter")
 	num = test
 	test += 1
 	if modif == 1:
