@@ -152,10 +152,10 @@ def crawler_youtube(url, liste, rssid, cat):
 			chaine = print_nk.printr("Channel  \t", "Orange", 0, 2)
 			chaine += print_nk.printr("=>", "Purple", 0, 0)
 			chaine += print_nk.printr(rssid, "White", 1, 0)
-			chaine += print_nk.printr("\nCategory \t", "Orange", 0, 2)
+			chaine += print_nk.printr("\n  Category \t", "Orange", 0, 0)
 			chaine += print_nk.printr("=>", "Purple", 0, 0)
 			chaine += print_nk.printr(cat, "White", 1, 0)
-			chaine += print_nk.printr("\nVideo    \t", "Orange", 0, 2)
+			chaine += print_nk.printr("\n  Video    \t", "Orange", 0, 0)
 			chaine += print_nk.printr("=>", "Purple", 0, 0)
 			chaine += print_nk.printr(titre, "White", 1, 0)
 			print chaine
