@@ -1,23 +1,24 @@
 #!/usr/bin/python2.7
 
 import control_nk
+import print_nk
 import spider_nk
 import string_nk
 import crawler_nk
 import system_nk
 
 def admin(titre, date, url, frame, chaine, liste, test):
-	print "\033[94m  Connection to vogsphere"
+	print_nk.printc("Connection to vogsphere", "Blue", 0, 0)
 	control_nk.dcp(196, 110, 1, 2)									# VGS #
 	control_nk.dcp(226, 304, 1, 6)									# ADMIN #
 	if control_nk.test_url("Administration - Panneau d'administration") == 0:
 		articles(titre, date, url, frame, chaine, liste, test)
 	else:
-		print "\033[92mConnected"
+		print_nk.printc("Connected", "Green", 1, 2)
 		add_article(titre, date, url, frame, chaine, liste, test)
 
 def add_article(titre, date, url, frame, chaine, liste, test):
-	print "\033[94m  New topic"
+	print_nk.printc("New topic", "Blue", 0, 0)
 	control_nk.dcp(1126, 285, 1, 6)									# nouvel article #
 	if control_nk.test_url("Administration") == 0:
 		articles(titre, date, url, frame, chaine, liste, test)
@@ -25,48 +26,48 @@ def add_article(titre, date, url, frame, chaine, liste, test):
 		add_titre(titre, date, url, frame, chaine, liste, test)
 
 def add_titre(titre, date, url, frame, chaine, liste, test):
-	print "\033[93m    Titre"
+	print_nk.printc("Titre", "Orange", 0, 2)
 	control_nk.dcp(173, 333, 1, 2)									# titre #
 	title = "[" + chaine + "] " + titre
 	control_nk.copier(title)
 	control_nk.ctrl_V()
-	print "\033[97m      " + titre
+	print_nk.printc(titre, "White", 1, 4)
 	categorie(titre, date, url, frame, chaine, liste, test)
 
 def categorie(titre, date, cat, frame, chaine, liste, test):
-	print "\033[93m    Category"
+	print_nk.printc("Category", "Orange", 0, 2)
 	control_nk.dcp(577, 342, 1, 2)									# Categorie #
 	control_nk.copier(cat)
 	control_nk.ctrl_V()
-	print "\033[97m      " + cat
+	print_nk.printc(cat, "White", 1, 4)
 	control_nk.dcp(463, 396, 1, 2)									# Video #
 	frame2(titre, date, cat, frame, chaine, liste, test)
 
 def frame2(titre, date, url, frame, chaine, liste, test):
-	print "\033[93m    Insert video"
+	print_nk.printc("Insert video", "Orange", 0, 2)
 	control_nk.dcp(77, 663, 1, 5)									# inserer le code #
 	control_nk.copier(frame)
 	control_nk.dcp(175, 357, 1, 2)									# HTML #
 	control_nk.ctrl_V()
-	print "\033[97m      " + frame
+	print_nk.printc(frame, "White", 1, 4)
 	control_nk.dcp(173, 249, 1, 5)									# inserer #
 	param(titre, date, url, frame, chaine, liste, test)
 
 def param(titre, date, url, frame, chaine, liste, test):
-	print "\033[93m    Date"
+	print_nk.printc("Date", "Orange", 0, 2)
 	control_nk.dcp(252, 285, 1, 5)									# parametre article #
 	control_nk.dcp(217, 516, 1, 2)									# date de creation #
 	date0 = date +  " 00:00:00"
 	control_nk.copier(date0)
 	control_nk.ctrl_V()
-	print "\033[97m      " + date
+	print_nk.printc(date, "White", 1, 4)
 	control_nk.dcp(850, 332, 1, 2)									# date de pub #
 	control_nk.copier(date0)
 	control_nk.ctrl_V()
 	enregistrer(titre, date, url ,frame, chaine, liste, test)
 
 def enregistrer(titre, date, url, frame, chaine, liste, test):
-	print "\033[93m    Save"
+	print_nk.printc("Save", "Orange", 0, 2)
 	control_nk.dcp(149, 232, 1, 9)									# enregistrer #
 	testa = system_nk.commande('grep "'+titre+'" sav.nk | wc -l')
 	modif = control_nk.test_url("Modifier")
@@ -98,5 +99,5 @@ def enregistrer(titre, date, url, frame, chaine, liste, test):
 
 def articles(titre, date, url, frame, chaine, liste, test):
 	if test == 0:
-		print "\033[1m\033[92mAdding topic on vogsphere\033[0m"
+		print_nk.printc("Adding topic on vogsphere", "Green", 0, 2)
 	admin(titre, date, url, frame, chaine, liste, test)

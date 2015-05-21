@@ -131,9 +131,9 @@ def youtube(url, liste, rssid, count, cat):
 			lien = "https://www.youtube.com" + lien
 			compteur += 1
 			print_nk.printc("==================================================================================", "Purple", 0, 0)
-			chaine = print_nk.printr("Crawling ...\t\t[", "Bleu", 0, 0)
+			chaine = print_nk.printr("Crawling ...\t[", "Blue", 0, 0)
 			chaine += print_nk.printr(str(compteur), "Green", 1, 0)
-			chaine += print_nk.printr("]", "Purple", 0, 0)
+			chaine += print_nk.printr("]", "Blue", 0, 0)
 			print chaine
 			if crawler_youtube(lien, liste, rssid, cat) == 0:
 				#break
@@ -150,13 +150,13 @@ def crawler_youtube(url, liste, rssid, cat):
 		if string_nk.match(ligne, "watch-title") == 1 and string_nk.match(ligne, "eow-title") == 1:
 			titre = string_nk.str_replace(string_nk.cut(ligne, '"', 7))
 			chaine = print_nk.printr("Channel  \t", "Orange", 0, 2)
-			chaine += print_nk.printr("=>", "Purple", 0, 0)
+			chaine += print_nk.printr("=> ", "Purple", 0, 0)
 			chaine += print_nk.printr(rssid, "White", 1, 0)
 			chaine += print_nk.printr("\n  Category \t", "Orange", 0, 0)
-			chaine += print_nk.printr("=>", "Purple", 0, 0)
+			chaine += print_nk.printr("=> ", "Purple", 0, 0)
 			chaine += print_nk.printr(cat, "White", 1, 0)
 			chaine += print_nk.printr("\n  Video    \t", "Orange", 0, 0)
-			chaine += print_nk.printr("=>", "Purple", 0, 0)
+			chaine += print_nk.printr("=> ", "Purple", 0, 0)
 			chaine += print_nk.printr(titre, "White", 1, 0)
 			print chaine
 			if test_titre2(titre) == 0:
