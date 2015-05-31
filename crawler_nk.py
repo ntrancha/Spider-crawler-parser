@@ -7,8 +7,19 @@ import print_nk
 import system_nk
 import date_nk
 import urllib2
+import urllib
+import httplib
 import calendar
 import datetime
+
+
+def url_post(titre, article, category, date):
+    data = urllib.urlencode({'titre':titre, 'article':article, 'category':category, 'date':date})
+    h = httplib.HTTPConnection('video.vogsphere.fr:80')
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+    h.request('POST', '/lib/add_post.php', data, headers)
+    r = h.getresponse()
+    print r.read()
 
 def download(url):
 	attempts = 0
@@ -162,14 +173,18 @@ def crawler_youtube(url, liste, rssid, cat):
 			if test_titre2(titre) == 0:
 				return 0
 				break
-			if test_titre(titre, 0) == 0:
-				return 0
-				break
+			#if test_titre(titre, 0) == 0:
+				#return 0
+				#break
 			url0 = string_nk.cut(url, '=', 1)
 			frame = '<iframe width="853" height="480" src="https://www.youtube.com/embed/'+url0+'" frameborder="0" allowfullscreen></iframe>'
 			chaine = str(timestamp) +de+ rssid +de+ titre +de+ date +de+ cat +de+ frame
 			liste.append(chaine)
-			spider_nk.sav_article(liste, 0)
+			#spider_nk.sav_article(liste, 0)
+                        print "++++++++++++" + titre
+                        url_post(titre, frame, cat, date)
+                        commande = 'echo "' + string_nk.str_replace2(titre) + '" >> sav.nk'
+                        system_nk.execute(commande)
 		if string_nk.match(ligne, "datePublished") == 1:
 			date =  string_nk.cut(ligne, '"', 3)
 			date0 = datetime.datetime.strptime(date, "%Y-%m-%d")
